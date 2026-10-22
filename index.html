@@ -1140,7 +1140,7 @@ window.addEventListener('scroll', () => {
 </script>
 
 <!-- ========================================================
-     ALCHE.STUDIO EXACT 3D MONOGRAM & PRISM CYLINDER ENGINE
+     ALCHE.STUDIO EXACT 3D MONOGRAM ENGINE (SOLID METALLIC-GLASS HYBRID)
      ======================================================== -->
 <script type="module">
 const wrap = document.querySelector('#canvas-wrap');
@@ -1152,30 +1152,38 @@ try {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.35;
+  renderer.toneMappingExposure = 1.45;
   wrap.appendChild(renderer.domElement);
 
   const scene = new T.Scene();
   const camera = new T.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 50);
   camera.position.set(0, 0, 8.5);
 
-  // LIGHTING RIG (ALCHE CONTRAST)
-  scene.add(new T.HemisphereLight(0xffffff, 0x050508, 2.2));
-  const mainSpot = new T.SpotLight(0xffffff, 85, 30, Math.PI / 4, 0.8, 1);
-  mainSpot.position.set(5, 6, 6);
-  scene.add(mainSpot);
+  // LIGHTING RIG (HIGH CONTRAST & SPECULAR DIRECT LIGHTS)
+  scene.add(new T.HemisphereLight(0xffe4f6, 0x141020, 2.5));
 
-  const pinkLight = new T.PointLight(0xff2a85, 80, 25); pinkLight.position.set(4, 2, 4); scene.add(pinkLight);
-  const cyanLight = new T.PointLight(0x00f0ff, 70, 25); cyanLight.position.set(-4, -2, 4); scene.add(cyanLight);
-  const blastLight = new T.PointLight(0x00ffff, 0, 20); scene.add(blastLight);
+  const keyLight = new T.DirectionalLight(0xffffff, 4.5);
+  keyLight.position.set(5, 8, 6);
+  scene.add(keyLight);
 
-  // 1. ALCHE CYLINDRICAL HUD CAGE (AROUND S)
+  const pinkLight = new T.PointLight(0xff2a85, 95, 25);
+  pinkLight.position.set(4, 2, 4);
+  scene.add(pinkLight);
+
+  const cyanLight = new T.PointLight(0x00f0ff, 85, 25);
+  cyanLight.position.set(-4, -2, 4);
+  scene.add(cyanLight);
+
+  const blastLight = new T.PointLight(0x00ffff, 0, 25);
+  scene.add(blastLight);
+
+  // 1. ALCHE CYLINDRICAL HUD CAGE
   const cageGeo = new T.CylinderGeometry(2.35, 2.35, 5.2, 32, 12, true);
   const cageMat = new T.MeshBasicMaterial({
-    color: 0x4a4a60,
+    color: 0x00f0ff,
     wireframe: true,
     transparent: true,
-    opacity: 0.18,
+    opacity: 0.15,
     side: T.DoubleSide
   });
   const cageMesh = new T.Mesh(cageGeo, cageMat);
@@ -1195,7 +1203,7 @@ try {
   glyphGeo.setAttribute('position', new T.BufferAttribute(glyphPos, 3));
   const glyphMat = new T.PointsMaterial({
     color: 0x00f0ff,
-    size: 0.12,
+    size: 0.14,
     transparent: true,
     opacity: 0.85
   });
@@ -1203,8 +1211,8 @@ try {
   scene.add(glyphs);
 
   // 3. PMREM ENVIRONMENT (HIGH CONTRAST PRISM REFLECTIONS)
-  const es = new T.Scene(); es.background = new T.Color('#05050a');
-  for (const [pos, size, color, k] of [[[-4, 2, 3], [2, 8], '#ffffff', 4], [[4, 2, 1], [3, 6], '#00f0ff', 3.5], [[0, 5, -2], [6, 3], '#ff2a85', 3]]) {
+  const es = new T.Scene(); es.background = new T.Color('#0b0b14');
+  for (const [pos, size, color, k] of [[[-4, 2, 3], [2, 8], '#ffffff', 5], [[4, 2, 1], [3, 6], '#00f0ff', 4], [[0, 5, -2], [6, 3], '#ff2a85', 4]]) {
     const m = new T.Mesh(new T.PlaneGeometry(...size), new T.MeshBasicMaterial({ color: new T.Color(color).multiplyScalar(k), side: T.DoubleSide }));
     m.position.set(...pos); m.lookAt(0, 0, 0); es.add(m);
   }
@@ -1216,7 +1224,7 @@ try {
   const mainGroup = new T.Group();
   scene.add(mainGroup);
 
-  // 4. PRECISION S MONOGRAM (ALCHE SHARP BEVEL MONOLITH)
+  // 4. PRECISION S MONOGRAM (SOLID HIGH VISIBILITY PHYSICAL SHADER)
   const shape = new T.Shape();
   shape.moveTo(0.88, 1.15);
   shape.bezierCurveTo(0.48, 1.48, -0.28, 1.48, -0.78, 1.10);
@@ -1244,21 +1252,18 @@ try {
   });
   sg.center(); sg.computeVertexNormals();
 
-  // ALCHE EXACT PRISM GLASS MATERIAL (TRANSMISSIVE WITH PRISMATIC SPECULAR)
+  // MATERIAL ULTRA NÍTIDO: VISÍVEL EM QUALQUER TELA
   const baseMat = new T.MeshPhysicalMaterial({
-    color: '#ffffff',
-    metalness: 0.1,
-    roughness: 0.02,
-    transmission: 0.82,
-    thickness: 1.1,
-    ior: 1.54,
+    color: '#ff2a85',
+    emissive: '#3a0820',
+    emissiveIntensity: 0.45,
+    metalness: 0.25,
+    roughness: 0.12,
     clearcoat: 1.0,
-    clearcoatRoughness: 0.02,
-    attenuationColor: new T.Color('#00f0ff'),
-    attenuationDistance: 1.8,
-    envMapIntensity: 3.2,
+    clearcoatRoughness: 0.04,
+    envMapIntensity: 2.8,
     transparent: true,
-    opacity: 0.28 // HERO INITIAL OPACITY (HIGH TEXT CONTRAST)
+    opacity: 0.72 // NÍTIDO E BEM VISÍVEL NA HERO
   });
   const solidLetter = new T.Mesh(sg, baseMat);
   mainGroup.add(solidLetter);
@@ -1289,9 +1294,9 @@ try {
 
   // 6. DUAL PRISM ORBIT RINGS
   const orbit = new T.Group(); mainGroup.add(orbit);
-  const rg = new T.TorusGeometry(1.92, 0.016, 10, 160);
-  const ringMatA = new T.MeshStandardMaterial({ color: '#ff2a85', emissive: '#ff2a85', emissiveIntensity: 2.5, metalness: 0.5, roughness: 0.1, transparent: true, opacity: 0.35 });
-  const ringMatB = new T.MeshStandardMaterial({ color: '#00f0ff', emissive: '#00f0ff', emissiveIntensity: 2.5, metalness: 0.5, roughness: 0.1, transparent: true, opacity: 0.35 });
+  const rg = new T.TorusGeometry(1.92, 0.02, 10, 160);
+  const ringMatA = new T.MeshStandardMaterial({ color: '#ff2a85', emissive: '#ff2a85', emissiveIntensity: 2.8, metalness: 0.5, roughness: 0.1, transparent: true, opacity: 0.85 });
+  const ringMatB = new T.MeshStandardMaterial({ color: '#00f0ff', emissive: '#00f0ff', emissiveIntensity: 2.8, metalness: 0.5, roughness: 0.1, transparent: true, opacity: 0.85 });
   const ra = new T.Mesh(rg, ringMatA); ra.rotation.set(1.08, 0.2, 0.3); orbit.add(ra);
   const rb = new T.Mesh(rg, ringMatB); rb.rotation.set(0.45, 1.1, -0.35); rb.scale.setScalar(1.06); orbit.add(rb);
 
@@ -1315,13 +1320,10 @@ try {
       explodeBtn.textContent = '⚡ RECONSTRUINDO...';
       explodeBtn.classList.add('btn-outline');
     }
-    blastLight.intensity = 160;
+    blastLight.intensity = 180;
     if (navigator.vibrate) navigator.vibrate([30, 50, 40]);
   }
   if (explodeBtn) explodeBtn.onclick = triggerExplosion;
-
-  // AUTO EXPLOSION ON ENTRY/REFRESH
-  setTimeout(() => { triggerExplosion(); }, 450);
 
   let last = performance.now();
   let time = 0;
@@ -1335,11 +1337,9 @@ try {
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight || 1;
     const p = Math.min(1, Math.max(0, window.scrollY / maxScroll));
 
-    // DYNAMIC OPACITY ON SCROLL
-    const targetOpacity = THREE.MathUtils.lerp(0.28, 1.0, Math.min(1, p * 4.5));
+    // DYNAMIC OPACITY (NÍTIDO NA HERO, SÓLIDO NO SCROLL)
+    const targetOpacity = THREE.MathUtils.lerp(0.72, 1.0, Math.min(1, p * 4.0));
     baseMat.opacity = THREE.MathUtils.lerp(baseMat.opacity, targetOpacity, 0.08);
-    ringMatA.opacity = THREE.MathUtils.lerp(ringMatA.opacity, targetOpacity, 0.08);
-    ringMatB.opacity = THREE.MathUtils.lerp(ringMatB.opacity, targetOpacity, 0.08);
 
     // ALCHE.STUDIO EXACT AXIAL TRAJECTORY
     const targetX = Math.sin(p * Math.PI * 2) * 1.8;
