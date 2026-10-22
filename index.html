@@ -9,7 +9,7 @@
   --sunset:#FF7A00;
   --gold:#FFB800;
   --text:#FFFFFF;
-  --text-dim:#9E9EB3;
+  --text-dim:#A5A5BA;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:auto}
@@ -140,17 +140,35 @@ header{
 main{position:relative;z-index:10}
 .hero,.section{max-width:1200px;margin:auto;padding:70px 22px}
 .hero{padding-top:140px;text-align:left}
+.hero-content{
+  position:relative;
+  z-index:15;
+  text-shadow:0 4px 30px rgba(0,0,0,0.9),0 2px 8px rgba(0,0,0,0.85);
+}
 .kicker{
   display:inline-block;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;
   color:var(--cyan);font-weight:700;margin-bottom:14px;text-shadow:0 0 12px var(--cyan-glow);
 }
-h1{font-size:clamp(56px,11vw,130px);line-height:0.88;letter-spacing:-0.05em;margin-bottom:20px}
+h1{
+  font-size:clamp(56px,11vw,130px);
+  line-height:0.88;
+  letter-spacing:-0.05em;
+  margin-bottom:20px;
+  filter:drop-shadow(0 6px 20px rgba(0,0,0,0.95));
+}
 h1 .gradient-text{
   background:linear-gradient(110deg,#FFF 0%,var(--pink) 45%,var(--sunset) 85%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;text-shadow:0 0 45px rgba(255,42,133,0.3);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;
+  filter:drop-shadow(0 4px 25px rgba(255,42,133,0.4));
 }
 h2{font-size:clamp(36px,6vw,72px);line-height:0.96;letter-spacing:-0.04em;margin-bottom:28px}
-p.lead{font-size:17px;line-height:1.65;color:var(--text-dim);max-width:560px}
+p.lead{
+  font-size:17px;
+  line-height:1.65;
+  color:#FFFFFF;
+  max-width:560px;
+  text-shadow:0 2px 14px rgba(0,0,0,0.95),0 0 4px rgba(0,0,0,0.9);
+}
 
 /* STATS GRID */
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:32px 0}
@@ -404,17 +422,19 @@ p.lead{font-size:17px;line-height:1.65;color:var(--text-dim);max-width:560px}
 <main>
   <!-- HERO SECTION -->
   <section class="hero" id="home">
-    <span class="kicker">LEONIDA STATE // VICE CITY VIBES</span>
-    <h1 class="font-display">
-      PLAY HARD.
-      <span class="gradient-text">LIVE LOUD.</span>
-    </h1>
-    <p class="lead">Gaming de alta performance, projetos automotivos noturnos e uma comunidade construída para quem acelera sem freio.</p>
+    <div class="hero-content">
+      <span class="kicker">LEONIDA STATE // VICE CITY VIBES</span>
+      <h1 class="font-display">
+        PLAY HARD.
+        <span class="gradient-text">LIVE LOUD.</span>
+      </h1>
+      <p class="lead">Gaming de alta performance, projetos automotivos noturnos e uma comunidade construída para quem acelera sem freio.</p>
 
-    <div class="actions" style="margin:26px 0 10px;display:flex;gap:12px;flex-wrap:wrap">
-      <a class="btn-neon" href="https://discord.gg/stopzera" target="_blank" rel="noopener">Entrar na Crew</a>
-      <button id="explodeBtn" class="btn-neon btn-cyan" type="button" style="padding:15px 26px">💥 Explodir S 3D</button>
-      <a class="btn-neon btn-outline" href="https://www.instagram.com/thiagos4ntoss/" target="_blank" rel="noopener">Instagram</a>
+      <div class="actions" style="margin:26px 0 10px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn-neon" href="https://discord.gg/stopzera" target="_blank" rel="noopener">Entrar na Crew</a>
+        <button id="explodeBtn" class="btn-neon btn-cyan" type="button" style="padding:15px 26px">💥 Explodir S 3D</button>
+        <a class="btn-neon btn-outline" href="https://www.instagram.com/thiagos4ntoss/" target="_blank" rel="noopener">Instagram</a>
+      </div>
     </div>
 
     <!-- STATS GRID -->
@@ -546,9 +566,7 @@ p.lead{font-size:17px;line-height:1.65;color:var(--text-dim);max-width:560px}
     </div>
   </section>
 
-  <!-- ========================================================
-       ALCHE.STUDIO EXACT 3D PINNED SCROLL GALLERY
-       ======================================================== -->
+  <!-- ALCHE.STUDIO EXACT 3D PINNED SCROLL GALLERY -->
   <section class="alche-gallery-section" id="gallery">
     <div class="alche-gallery-sticky">
       <div class="alche-gallery-header">
@@ -717,9 +735,7 @@ document.querySelectorAll('.game-card, .garage-hud, .cover').forEach((card) => {
   }
 });
 
-// 4. ========================================================
-//    EXACT ALCHE.STUDIO PINNED 3D CARD SLIDER (DRIVEN BY SCROLL)
-//    ========================================================
+// 4. ALCHE.STUDIO EXACT 3D PINNED SLIDER
 (() => {
   const galSection = document.querySelector('.alche-gallery-section');
   const cards = document.querySelectorAll('.alche-screen-card');
@@ -734,25 +750,16 @@ document.querySelectorAll('.game-card, .garage-hud, .cover').forEach((card) => {
     end: 'bottom bottom',
     scrub: 0.25,
     onUpdate: (self) => {
-      const p = self.progress; // 0.0 to 1.0
-      // Map progress to card index range
+      const p = self.progress;
       const exactIndex = p * (totalCards - 1);
       const activeIdx = Math.min(totalCards - 1, Math.floor(exactIndex + 0.5));
 
-      // Update active text info item
       infoItems.forEach((item, i) => {
         item.classList.toggle('active', i === activeIdx);
       });
 
-      // Update 3D card layout (Alche.studio floating screen stack algorithm)
       cards.forEach((card, i) => {
-        const offset = i - exactIndex; // distance from active focal point (-N to +N)
-
-        // Alche calculations:
-        // Center card (offset = 0): X=0, Z=0, rotY=0, rotZ=0, opacity=1
-        // Right cards (offset > 0): X moves right, Z moves back, rotY angles inward, rotZ tilts sutil
-        // Left cards (offset < 0): X moves left, Z moves far back, fades out
-
+        const offset = i - exactIndex;
         const trX = offset * 320;
         const trZ = -Math.abs(offset) * 240;
         const trY = Math.sin(offset * 0.9) * 25;
@@ -1096,7 +1103,7 @@ window.addEventListener('scroll', () => {
     const done = g;
     g = null;
     if (!done.drag) return;
-    suppress = performance.now() + 450;
+    suppress = performance.now()+450;
     if (dock.hasPointerCapture(e.pointerId)) dock.releasePointerCapture(e.pointerId);
     if (cancel) { lock = 0; select(done.original); return; }
     const center = dock.getBoundingClientRect().left + dock.clientLeft + x + w / 2;
@@ -1194,7 +1201,21 @@ try {
   const sg = new T.ExtrudeGeometry(shape, { depth: 0.44, steps: 1, curveSegments: 32, bevelEnabled: true, bevelThickness: 0.14, bevelSize: 0.13, bevelSegments: 8 });
   sg.center(); sg.computeVertexNormals();
 
-  const baseMat = new T.MeshPhysicalMaterial({ color: '#ff2a85', metalness: 0.15, roughness: 0.05, transmission: 0.65, thickness: 0.75, ior: 1.5, clearcoat: 1, clearcoatRoughness: 0.02, attenuationColor: new T.Color('#00f0ff'), attenuationDistance: 2.2, envMapIntensity: 2.4 });
+  const baseMat = new T.MeshPhysicalMaterial({
+    color: '#ff2a85',
+    metalness: 0.15,
+    roughness: 0.05,
+    transmission: 0.65,
+    thickness: 0.75,
+    ior: 1.5,
+    clearcoat: 1,
+    clearcoatRoughness: 0.02,
+    attenuationColor: new T.Color('#00f0ff'),
+    attenuationDistance: 2.2,
+    envMapIntensity: 2.4,
+    transparent: true,
+    opacity: 0.28 // OPACIDADE BAIXA INICIAL NA HERO PARA TOTAL LEGIBILIDADE DO TEXTO
+  });
   const solidLetter = new T.Mesh(sg, baseMat);
   mainGroup.add(solidLetter);
 
@@ -1223,8 +1244,10 @@ try {
 
   const orbit = new T.Group(); mainGroup.add(orbit);
   const rg = new T.TorusGeometry(1.85, 0.018, 10, 160);
-  const ra = new T.Mesh(rg, new T.MeshStandardMaterial({ color: '#ff2a85', emissive: '#ff2a85', emissiveIntensity: 2, metalness: 0.4, roughness: 0.15 })); ra.rotation.set(1.08, 0.2, 0.3); orbit.add(ra);
-  const rb = new T.Mesh(rg, new T.MeshStandardMaterial({ color: '#00f0ff', emissive: '#00f0ff', emissiveIntensity: 2, metalness: 0.4, roughness: 0.15 })); rb.rotation.set(0.45, 1.1, -0.35); rb.scale.setScalar(1.06); orbit.add(rb);
+  const ringMatA = new T.MeshStandardMaterial({ color: '#ff2a85', emissive: '#ff2a85', emissiveIntensity: 2, metalness: 0.4, roughness: 0.15, transparent: true, opacity: 0.35 });
+  const ringMatB = new T.MeshStandardMaterial({ color: '#00f0ff', emissive: '#00f0ff', emissiveIntensity: 2, metalness: 0.4, roughness: 0.15, transparent: true, opacity: 0.35 });
+  const ra = new T.Mesh(rg, ringMatA); ra.rotation.set(1.08, 0.2, 0.3); orbit.add(ra);
+  const rb = new T.Mesh(rg, ringMatB); rb.rotation.set(0.45, 1.1, -0.35); rb.scale.setScalar(1.06); orbit.add(rb);
 
   const c = document.createElement('canvas'); c.width = c.height = 64;
   const cx = c.getContext('2d');
@@ -1263,6 +1286,11 @@ try {
   }
   if (explodeBtn) explodeBtn.onclick = triggerExplosion;
 
+  // DISPARO AUTOMÁTICO DE EXPLOSÃO NA ENTRADA/REFRESH DA PÁGINA
+  setTimeout(() => {
+    triggerExplosion();
+  }, 450);
+
   let last = performance.now();
   let time = 0;
 
@@ -1274,6 +1302,14 @@ try {
 
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight || 1;
     const p = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+
+    // DINÂMICA DE OPACIDADE BASEADA NO SCROLL:
+    // Na Hero (p = 0): opacidade = 0.28 (texto super nítido)
+    // Conforme desce o scroll (p > 0.08): opacidade sobe para 1.0 sólido
+    const targetOpacity = THREE.MathUtils.lerp(0.28, 1.0, Math.min(1, p * 4.5));
+    baseMat.opacity = THREE.MathUtils.lerp(baseMat.opacity, targetOpacity, 0.08);
+    ringMatA.opacity = THREE.MathUtils.lerp(ringMatA.opacity, targetOpacity, 0.08);
+    ringMatB.opacity = THREE.MathUtils.lerp(ringMatB.opacity, targetOpacity, 0.08);
 
     const targetX = Math.sin(p * Math.PI * 2) * 1.8;
     const targetY = Math.cos(p * Math.PI * 2) * 0.8 - (p * 1.2);
