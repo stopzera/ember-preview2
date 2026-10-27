@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0B0B0E"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><title>thiagos4ntoss (@thiagos4ntoss) • Liquid Metal Edition</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0B0B0E"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><title>thiagos4ntoss (@thiagos4ntoss) • Official Portal</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
 :root{
   --bg:#0B0B0E;
   --bg-card:rgba(14,14,20,0.72);
@@ -435,47 +435,128 @@ main{position:relative;z-index:10;max-width:940px;margin:auto;padding:90px 18px 
   color:#D2D2E6;
 }
 
-/* DOCK HOTBAR */
-.dock{
+/* ========================================================
+   PROFITIZEBUILD FLOATING DOCK (MACOS SPRING PHYSICS)
+   ======================================================== */
+.fd-wrapper{
   position:fixed;
-  bottom:calc(12px + env(safe-area-inset-bottom));
+  bottom:calc(14px + env(safe-area-inset-bottom));
   left:50%;
   transform:translateX(-50%);
-  z-index:50;
-  border-radius:100px;
-  padding:6px;
-  display:flex;
-  width:min(440px,94vw);
-  background:rgba(18,18,24,0.88);
-  border:1px solid rgba(255,255,255,0.22);
-  box-shadow:0 20px 60px rgba(0,0,0,0.7),0 0 30px rgba(255,42,133,0.2);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  touch-action:pan-y;
+  z-index:90;
+  pointer-events:auto;
 }
-.dock a{
-  position:relative;
-  z-index:2;
-  flex:1;
-  text-align:center;
-  padding:15px 2px;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  color:#B1B1C8;
-  white-space:nowrap;
+
+.fd-dock {
+  --fd-bg: rgba(18, 18, 24, 0.88);
+  --fd-item: rgba(255, 255, 255, 0.08);
+  --fd-icon: #ffffff;
+  --fd-tip-bg: rgba(18, 18, 24, 0.95);
+  --fd-tip-border: rgba(255, 255, 255, 0.2);
+  --fd-tip-text: #ffffff;
+  --fd-ring: var(--cyan);
+
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  width: max-content;
+  height: 64px;
+  padding: 0 16px 12px;
+  border-radius: 20px;
+  background: var(--fd-bg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 42, 133, 0.25);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
-.dock a[aria-current=location]{color:#FFF;text-shadow:0 0 16px var(--pink)}
-.dock-capsule{
-  position:absolute;
-  left:0;top:6px;bottom:6px;width:0;
-  border-radius:100px;
-  pointer-events:none;
-  z-index:1;
-  background:linear-gradient(135deg,rgba(255,42,133,0.4),rgba(0,240,255,0.3));
-  border:1px solid rgba(255,255,255,0.45);
-  box-shadow:0 0 20px var(--pink-glow);
+
+.fd-dock__item {
+  position: relative;
+  display: block;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.fd-dock__tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--fd-item);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  will-change: width, height;
+}
+
+.fd-dock__tile:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px var(--cyan-glow), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.fd-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--fd-icon);
+  width: 20px;
+  height: 20px;
+  will-change: width, height;
+}
+
+.fd-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fd-dock__tip {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  margin: 0;
+  padding: 4px 10px;
+  border: 1px solid var(--fd-tip-border);
+  border-radius: 8px;
+  background: var(--fd-tip-bg);
+  color: var(--fd-tip-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: pre;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translate(-50%, 4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+}
+
+.fd-dock__item:hover .fd-dock__tip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.fd-dock__item[aria-current]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
 }
 
 @media(max-width:650px){
@@ -483,6 +564,7 @@ main{position:relative;z-index:10;max-width:940px;margin:auto;padding:90px 18px 
   .profile-card{padding:24px 18px}
   .avatar-ring{width:82px;height:82px}
   .ig-stat-val{font-size:18px}
+  .fd-dock { gap: 10px; padding: 0 12px 10px; }
 }
 </style></head><body>
 
@@ -657,17 +739,81 @@ main{position:relative;z-index:10;max-width:940px;margin:auto;padding:90px 18px 
 
 <footer style="text-align:center;padding:20px 18px 120px;color:var(--text-dim);font-size:11px;letter-spacing:0.12em">
   <p class="font-display" style="font-size:13px;color:#FFF;margin-bottom:4px">@THIAGOS4NTOSS // STOPZERA</p>
-  <p>EXPERIÊNCIA WEB INTERATIVA COM LIQUID METAL VORTEX SHADER &amp; ALCHE 3D REELS.</p>
+  <p>EXPERIÊNCIA WEB INTERATIVA COM LIQUID METAL VORTEX SHADER &amp; MACOS FLOATING DOCK.</p>
 </footer>
 
-<!-- DOCK HOTBAR -->
-<nav class="dock" aria-label="Navegação HUD">
-  <span class="dock-capsule" aria-hidden="true"></span>
-  <a href="#profile" aria-current="location">Perfil</a>
-  <a href="#gallery">3D Reels</a>
-  <a href="https://discord.gg/stopzera" target="_blank" rel="noopener">Discord</a>
-  <a href="https://www.instagram.com/thiagos4ntoss/" target="_blank" rel="noopener">Instagram</a>
-</nav>
+<!-- PROFITIZEBUILD MACOS SPRING FLOATING DOCK -->
+<div class="fd-wrapper">
+  <nav class="fd-dock" aria-label="Navegação Principal" id="floatingDock">
+    <!-- 1. Perfil -->
+    <a href="#profile" class="fd-dock__item" aria-current="page" data-title="Perfil">
+      <div class="fd-dock__tip">Perfil</div>
+      <div class="fd-dock__tile">
+        <div class="fd-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- 2. 3D Reels -->
+    <a href="#gallery" class="fd-dock__item" data-title="3D Reels">
+      <div class="fd-dock__tip">3D Reels</div>
+      <div class="fd-dock__tile">
+        <div class="fd-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- 3. Discord -->
+    <a href="https://discord.gg/stopzera" target="_blank" rel="noopener" class="fd-dock__item" data-title="Discord Stopzera">
+      <div class="fd-dock__tip">Discord</div>
+      <div class="fd-dock__tile">
+        <div class="fd-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6h0a14.5 14.5 0 0 0-4-1.5 9.6 9.6 0 0 0-.5 1 12.8 12.8 0 0 0-3 0 9.6 9.6 0 0 0-.5-1A14.5 14.5 0 0 0 6 6c-3 4.5-2 9-2 13a14.6 14.6 0 0 0 4.5 2.3c.6-.8 1.1-1.6 1.5-2.5a9.5 9.5 0 0 1-2.4-1.1c.2-.1.4-.3.6-.4 3.1 1.4 6.5 1.4 9.6 0 .2.2.4.3.6.5a9.5 9.5 0 0 1-2.4 1.1c.4.9 1 1.7 1.5 2.5a14.6 14.6 0 0 0 4.5-2.3c0-4 1-8.5-2-13.1Z"></path>
+            <circle cx="9" cy="12" r="1"></circle>
+            <circle cx="15" cy="12" r="1"></circle>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- 4. Instagram -->
+    <a href="https://www.instagram.com/thiagos4ntoss/" target="_blank" rel="noopener" class="fd-dock__item" data-title="@thiagos4ntoss">
+      <div class="fd-dock__tip">Instagram</div>
+      <div class="fd-dock__tile">
+        <div class="fd-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- 5. Threads -->
+    <a href="https://www.threads.net/@thiagos4ntoss" target="_blank" rel="noopener" class="fd-dock__item" data-title="Threads">
+      <div class="fd-dock__tip">Threads</div>
+      <div class="fd-dock__tile">
+        <div class="fd-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 8a4 4 0 0 1 4 4c0 2-1 3.5-3 3.5s-2.5-1-2.5-2.5c0-2 1.5-3.5 3.5-3.5 3 0 4 2.5 4 5 0 3.5-2.5 6-6 6a8 8 0 1 1 8-8"></path>
+          </svg>
+        </div>
+      </div>
+    </a>
+  </nav>
+</div>
 
 <!-- HIGH-PERFORMANCE ANIMATION LIBRARIES -->
 <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
@@ -728,75 +874,131 @@ gsap.ticker.lagSmoothing(0);
   });
 })();
 
-// 3. DOCK HOTBAR SPRING
+// 3. MACOS SPRING PHYSICS ENGINE FOR FLOATING DOCK (PROFITIZEBUILD SPEC)
 (() => {
-  const dock = document.querySelector('.dock');
-  const cap = dock.querySelector('.dock-capsule');
-  const links = [...dock.querySelectorAll('a')];
-  let selected = 0;
-  let x = 0;
-  let w = 0;
-  let tx = 0;
-  let tw = 0;
-  let v = 0;
-  let vw = 0;
-  let af = 0;
-  let last = 0;
+  const dock = document.getElementById('floatingDock');
+  if (!dock) return;
 
-  function paint() {
-    cap.style.transform = `translate3d(${x}px,0,0)`;
-    cap.style.width = w + 'px';
-  }
+  const items = dock.querySelectorAll('.fd-dock__item');
+  const tiles = dock.querySelectorAll('.fd-dock__tile');
+  const icons = dock.querySelectorAll('.fd-icon');
 
-  function spring(now) {
-    const dt = Math.min((now - last) / 1000, 0.025) || 0.016;
-    last = now;
-    v += ((tx - x) * 210 - v * 25) * dt;
-    vw += ((tw - w) * 210 - vw * 25) * dt;
-    x += v * dt;
-    w += vw * dt;
-    paint();
-    if (Math.abs(tx - x) + Math.abs(tw - w) + Math.abs(v) + Math.abs(vw) > 0.1) {
-      af = requestAnimationFrame(spring);
-    } else {
-      x = tx;
-      w = tw;
-      v = vw = af = 0;
-      paint();
-    }
-  }
+  // Spring constants matching Motion: mass: 0.1, stiffness: 150, damping: 12
+  const STIFFNESS = 150;
+  const DAMPING = 12;
+  const MASS = 0.1;
+  const MAX_DISTANCE = 150;
 
-  function select(i, immediate = false) {
-    selected = i;
-    links.forEach((a, j) => {
-      if (i === j) a.setAttribute('aria-current', 'location');
-      else a.removeAttribute('aria-current');
-    });
-    tx = links[i].offsetLeft;
-    tw = links[i].offsetWidth;
-    if (immediate) {
-      cancelAnimationFrame(af);
-      af = 0;
-      x = tx;
-      w = tw;
-      v = vw = 0;
-      paint();
-    } else if (!af) {
-      last = performance.now();
-      af = requestAnimationFrame(spring);
-    }
-  }
+  let mouseX = Infinity;
+  let animId = null;
 
-  links.forEach((a, i) => a.addEventListener('click', (e) => {
-    if (a.getAttribute('href').startsWith('#')) {
-      e.preventDefault();
-      select(i);
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) lenis.scrollTo(target, { duration: 1.2 });
-    }
+  // Track state for each item spring
+  const springs = Array.from(items).map(() => ({
+    curTileSize: 40,
+    targetTileSize: 40,
+    velTile: 0,
+    curIconSize: 20,
+    targetIconSize: 20,
+    velIcon: 0
   }));
 
-  select(0, true);
+  function updateTargets() {
+    items.forEach((item, i) => {
+      if (mouseX === Infinity) {
+        springs[i].targetTileSize = 40;
+        springs[i].targetIconSize = 20;
+        return;
+      }
+
+      const rect = item.getBoundingClientRect();
+      const itemCenterX = rect.left + rect.width / 2;
+      const distance = mouseX - itemCenterX;
+
+      if (Math.abs(distance) < MAX_DISTANCE) {
+        // Cosine / smooth interpolation [-150, 0, 150] -> [40, 80, 40]
+        const factor = (Math.cos((distance / MAX_DISTANCE) * Math.PI) + 1) / 2;
+        springs[i].targetTileSize = 40 + factor * 40; // 40px -> 80px
+        springs[i].targetIconSize = 20 + factor * 20; // 20px -> 40px
+      } else {
+        springs[i].targetTileSize = 40;
+        springs[i].targetIconSize = 20;
+      }
+    });
+  }
+
+  let lastTime = performance.now();
+
+  function step(now) {
+    const dt = Math.min((now - lastTime) / 1000, 0.032) || 0.016;
+    lastTime = now;
+
+    let isMoving = false;
+
+    springs.forEach((s, i) => {
+      // Tile size spring
+      const forceTile = -STIFFNESS * (s.curTileSize - s.targetTileSize) - DAMPING * s.velTile;
+      const accelTile = forceTile / MASS;
+      s.velTile += accelTile * dt;
+      s.curTileSize += s.velTile * dt;
+
+      // Icon size spring
+      const forceIcon = -STIFFNESS * (s.curIconSize - s.targetIconSize) - DAMPING * s.velIcon;
+      const accelIcon = forceIcon / MASS;
+      s.velIcon += accelIcon * dt;
+      s.curIconSize += s.velIcon * dt;
+
+      // Apply to DOM
+      tiles[i].style.width = s.curTileSize.toFixed(2) + 'px';
+      tiles[i].style.height = s.curTileSize.toFixed(2) + 'px';
+      icons[i].style.width = s.curIconSize.toFixed(2) + 'px';
+      icons[i].style.height = s.curIconSize.toFixed(2) + 'px';
+
+      if (Math.abs(s.curTileSize - s.targetTileSize) > 0.05 || Math.abs(s.velTile) > 0.05) {
+        isMoving = true;
+      }
+    });
+
+    if (isMoving || mouseX !== Infinity) {
+      animId = requestAnimationFrame(step);
+    } else {
+      animId = null;
+    }
+  }
+
+  function startLoop() {
+    if (!animId) {
+      lastTime = performance.now();
+      animId = requestAnimationFrame(step);
+    }
+  }
+
+  dock.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'touch') {
+      mouseX = e.clientX;
+      updateTargets();
+      startLoop();
+    }
+  });
+
+  dock.addEventListener('pointerleave', () => {
+    mouseX = Infinity;
+    updateTargets();
+    startLoop();
+  });
+
+  // Smooth scroll click handler for internal links
+  items.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      const href = item.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        items.forEach(it => it.removeAttribute('aria-current'));
+        item.setAttribute('aria-current', 'page');
+        const target = document.querySelector(href);
+        if (target) lenis.scrollTo(target, { duration: 1.2 });
+      }
+    });
+  });
 })();
 </script>
 
